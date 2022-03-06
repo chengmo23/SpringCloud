@@ -1,0 +1,51 @@
+server:
+  port: 8003
+spring:
+  application:
+    name: microEurekaProvider                 # 微服务名称，对外暴露的微服务名称，十分重要
+
+################################################## JDBC 通用配置  ##########################################
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/spring_cloud_db3?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+############################### 不检查 spring.config.import=configserver:##################
+#  cloud:
+#    config:
+#      enabled: false
+
+
+###################################### MyBatis 配置 ######################################
+mybatis:
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  type-aliases-package: com.zimo.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+
+########################################### Spring cloud 自定义服务名称和 ip 地址###############################################
+eureka:
+  client:                                                 # 将客户端注册到 eureka 服务列表内
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/  # 这个地址是 7001注册中心在 application.yml 中暴露出来额注册地址（单机版）
+  instance:
+    instance-id: micro-eureka-provider-8003               # 自定义服务名称信息
+    prefer-ip-address: true                               # 显示访问路径的ip地址
+
+
+########################################## spring cloud 使用 Spring Boot actuator 监控完善信息###################################
+# Spring Boot 2.50 对 actuator 监控屏蔽了大多数的节点，只暴露了 heath 节点，本段配置（*）就是为了开启所有的节点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"                                      # * 在yaml 文件属于关键字，所以需要加引号
+info:
+  app.name: micro-eureka-provider
+  company.name: com.zimo
+  build.aetifactId: @project.artifactId@
+  build.version: @project.version@
+
