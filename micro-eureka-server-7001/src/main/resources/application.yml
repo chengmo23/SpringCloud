@@ -3,7 +3,7 @@ server:
 
 eureka:
   server:
-    enable-self-preservation: false   # false 关闭 Eureka 的自我保护机制，默认是开启,一建议修改
+    enable-self-preservation: true   # false 关闭 Eureka 的自我保护机制，默认是开启,一建议修改
   instance:
     hostname: eureka7001.com          # eureka 服务端实例名称
   client:
